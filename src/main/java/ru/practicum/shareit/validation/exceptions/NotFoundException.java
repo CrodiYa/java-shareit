@@ -1,4 +1,4 @@
-package ru.practicum.shareit.validation;
+package ru.practicum.shareit.validation.exceptions;
 
 public class NotFoundException extends RuntimeException {
     public NotFoundException(String message) {
