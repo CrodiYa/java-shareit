@@ -10,4 +10,14 @@ public class UserMapper {
         user.setEmail(userDto.getEmail());
         return user;
     }
+
+    public static User merge(User user, UserDto userDto) {
+        if (userDto.getName() != null) {
+            user.setName(userDto.getName());
+        }
+        if (userDto.getEmail() != null) {
+            user.setEmail(userDto.getEmail());
+        }
+        return user;
+    }
 }

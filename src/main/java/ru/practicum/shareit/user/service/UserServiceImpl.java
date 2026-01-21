@@ -6,9 +6,7 @@ import ru.practicum.shareit.user.UserMapper;
 import ru.practicum.shareit.user.dao.UserRepository;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
-import ru.practicum.shareit.validation.NotFoundException;
-
-import java.util.Optional;
+import ru.practicum.shareit.validation.exceptions.NotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -18,31 +16,32 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(Long userId) {
-        Optional<User> maybeUser = userRepository.getUser(userId);
-
-        return maybeUser.orElseThrow(() -> new NotFoundException("Пользователь с id " + userId + " не найден"));
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("Пользователь с id " + userId + " не найден"));
     }
 
     @Override
     public User addUser(UserDto userDto) {
-        return userRepository.addUser(UserMapper.toUser(userDto));
+        return userRepository.save(UserMapper.toUser(userDto));
     }
 
     @Override
     public User updateUser(Long userId, UserDto userDto) {
-        User user = UserMapper.toUser(userDto);
-        user.setId(userId);
+        User currentUser = getUser(userId);
 
-        Optional<User> maybeUser = userRepository.updateUser(user);
+        UserMapper.merge(currentUser, userDto);
 
-        return maybeUser.orElseThrow(() -> new NotFoundException("Пользователь с id " + userId + " не найден"));
+        return userRepository.save(currentUser);
     }
 
     @Override
     public void deleteUser(Long userId) {
-        boolean isDeleted = userRepository.deleteUser(userId);
+        throwIfUserNotFound(userId);
+        userRepository.deleteById(userId);
+    }
 
-        if (!isDeleted) {
+    public void throwIfUserNotFound(Long userId) {
+        if (!userRepository.existsById(userId)) {
             throw new NotFoundException("Пользователь с id " + userId + " не найден");
         }
     }

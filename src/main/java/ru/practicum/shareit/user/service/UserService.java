@@ -11,4 +11,6 @@ public interface UserService {
     User updateUser(Long userId, UserDto userDto);
 
     void deleteUser(Long userId);
+
+    void throwIfUserNotFound(Long userId);
 }

@@ -1,17 +1,7 @@
 package ru.practicum.shareit.user.dao;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import ru.practicum.shareit.user.model.User;
 
-import java.util.Optional;
-
-public interface UserRepository {
-    Optional<User> getUser(Long userId);
-
-    User addUser(User user);
-
-    Optional<User> updateUser(User user);
-
-    boolean deleteUser(Long userId);
-
-    boolean contains(Long userId);
+public interface UserRepository extends JpaRepository<User, Long> {
 }

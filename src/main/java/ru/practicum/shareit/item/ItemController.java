@@ -4,6 +4,8 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.item.dto.CommentCreate;
+import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.validation.OnCreate;
@@ -11,15 +13,13 @@ import ru.practicum.shareit.validation.OnUpdate;
 
 import java.util.Collection;
 
-/**
- * TODO Sprint add-controllers.
- */
+import static ru.practicum.shareit.Constants.USER_ID_HEADER;
+
 @RestController
 @RequestMapping("/items")
 @RequiredArgsConstructor
 public class ItemController {
 
-    private static final String USER_ID_HEADER = "X-Sharer-User-Id";
     private final ItemService itemService;
 
     @GetMapping("/{itemId}")
@@ -52,4 +52,11 @@ public class ItemController {
         return itemService.updateItem(userId, itemId, itemDto);
     }
 
+    @PostMapping("/{itemId}/comment")
+    public CommentDto addComment(@RequestHeader(USER_ID_HEADER) @Positive Long userId,
+                                 @PathVariable @Positive Long itemId,
+                                 @RequestBody CommentCreate commentText) {
+
+        return itemService.addComment(userId, itemId, commentText);
+    }
 }
