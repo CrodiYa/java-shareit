@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 import ru.practicum.shareit.validation.OnCreate;
 import ru.practicum.shareit.validation.OnUpdate;
 
-/**
- * TODO Sprint add-controllers.
- */
+import java.time.LocalDateTime;
+import java.util.Collection;
+
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,4 +26,7 @@ public class ItemDto {
     private String description;
     @NotNull(groups = OnCreate.class, message = "Статус должен быть заполнен")
     private Boolean available;
+    private LocalDateTime lastBooking;
+    private LocalDateTime nextBooking;
+    private Collection<CommentDto> comments;
 }

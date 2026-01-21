@@ -1,4 +1,4 @@
-package ru.practicum.shareit.item;
+package ru.practicum.shareit.item.mappers;
 
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
@@ -20,5 +20,19 @@ public class ItemMapper {
         itemDto.setDescription(item.getDescription());
         itemDto.setAvailable(item.getIsAvailable());
         return itemDto;
+    }
+
+    public static Item merge(Item item, ItemDto itemDto) {
+        if (itemDto.getName() != null) {
+            item.setName(itemDto.getName());
+        }
+        if (itemDto.getDescription() != null) {
+            item.setDescription(itemDto.getDescription());
+        }
+        if (itemDto.getAvailable() != null) {
+            item.setIsAvailable(itemDto.getAvailable());
+        }
+
+        return item;
     }
 }
