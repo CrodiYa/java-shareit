@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import ru.practicum.shareit.validation.exceptions.BadRequestException;
 import ru.practicum.shareit.validation.exceptions.ForbiddenException;
 import ru.practicum.shareit.validation.exceptions.NotFoundException;
-import ru.practicum.shareit.validation.exceptions.NotUniqueException;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,11 +35,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Map<String, String>> handleNotFoundException(NotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", ex.getMessage()));
-    }
-
-    @ExceptionHandler(NotUniqueException.class)
-    public ResponseEntity<Map<String, String>> handleNotUniqueException(NotUniqueException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(Collections.singletonMap("error", ex.getMessage()));
     }
 
     @ExceptionHandler(BadRequestException.class)
